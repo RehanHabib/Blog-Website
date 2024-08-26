@@ -82,11 +82,13 @@ namespace Blog_Website.Controllers
         {
             if (signInManager.IsSignedIn(User))
             {
+                var userId = userManager.GetUserId(User); // Retrieves the user ID as a string
+
                 var domainModel = new BlogPostComment
                 {
                     BlogPostId = blogDetailsViewModel.Id,
                     Description = blogDetailsViewModel.commentDescription,
-                    UserId = userManager.GetUserId(User),
+                    UserId = userId,  // Correctly assigns the user ID
                     DateAdded = DateTime.Now
                 };
 
