@@ -1,0 +1,53 @@
+﻿@model List<Blog_Website.Models.Domain.Tag>
+
+
+@{
+
+}
+
+<div class="bg-secondary bg-opacity-10 py-2">
+    <div class="container">
+        <h1>
+            Show All Tag - Admin Functionality
+        </h1>
+    </div>
+</div>
+
+<div class="container py-5">
+    @if (Model != null && Model.Any())
+    {
+        <table>
+            <thead>
+                <tr >
+                    <th class="p-4">ID</th>
+                    <th class="p-4">Name</th>
+                    <th class="p-4">Display Name</th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var tag in Model)
+                {
+                <tr>
+                        <td class="p-4">@tag.Id</td>
+                        <td class="p-4">@tag.Name</td>
+                        <td class="p-4">@tag.DisplayName</td>
+                       
+                        <td class="p-4">
+                            <a asp-area="" asp-controller="AdminTags"
+                               asp-action="Edit"
+                               asp-route-id="@tag.Id">Edit</a>
+                        </td>
+
+                </tr>    
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No tags found!</p>
+    }
+
+</div>
