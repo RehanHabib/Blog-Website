@@ -32,6 +32,10 @@ namespace Blog_Website.Controllers
         [ActionName("Add")]
         public async Task<IActionResult> Submittag(AddTagRequest addTagRequest)
         {
+           
+
+          
+
             // Mapping AddTagRequest to Tag domain Model
             var tag = new Tag
             {
@@ -48,9 +52,30 @@ namespace Blog_Website.Controllers
 
         [HttpGet]
         [ActionName("List")]
-        public async Task<IActionResult> List()
+        public async Task<IActionResult> List(string? searchQuery, string? sortBy, string? sortDirection, int pageSize =3, int pageNumber=1)
         {
-            var tags = await tagRepository.GetAllAsync();
+
+            var totalRecords = await tagRepository.CountAsync();
+            var totalPages = Math.Ceiling((decimal)totalRecords / pageSize);
+
+            if (pageNumber > totalPages)
+            {
+                pageNumber--;
+            }
+            if (pageNumber < 1)
+            {
+                pageNumber++;
+            }
+
+
+            ViewBag.TotalPages = totalPages;
+            ViewBag.SearchQuery = searchQuery;
+            ViewBag.SortBy = sortBy;
+            ViewBag.SortDirection = sortDirection;
+            ViewBag.PageSize = pageSize;
+            ViewBag.PageNumber = pageNumber;
+
+            var tags = await tagRepository.GetAllAsync(searchQuery);
             return View(tags);
         }
 
@@ -118,6 +143,9 @@ namespace Blog_Website.Controllers
             // Show an error notification
             return RedirectToAction("Edit", new { id = editTagRequest.Id });
         }
+
+
+      
 
     }
 

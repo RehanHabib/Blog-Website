@@ -40,7 +40,7 @@ namespace Blog_Website.Controllers
         }
 
 
-
+        [HttpPost]
         public async Task<IActionResult> Add(AddBlogPostRequest addBlogPostRequest)
         {
             var blogPost = new BlogPost

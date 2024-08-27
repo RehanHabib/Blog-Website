@@ -5,7 +5,7 @@ namespace Blog_Website.Repositories
     public interface ITagRepository
     {
         
-       Task<IEnumerable <Tag>> GetAllAsync();
+       Task<IEnumerable <Tag>> GetAllAsync(string? searchQuery = null, string? sortBy= null, string? sortDirection=null, int pageNumber =1, int pageSize=100);
 
         Task<Tag> GetAsync(int id);
 
@@ -15,5 +15,6 @@ namespace Blog_Website.Repositories
 
         Task<Tag?> DeleteAsync(int id);
 
+        Task<int> CountAsync();
     }
 }

@@ -29,5 +29,8 @@ namespace Blog_Website.Models.VewModels
         public bool Liked { get; set; }
 
         public string commentDescription { get; set; }
+
+        public IEnumerable<BlogComment> Comments { get; set; }
+
     }
 }

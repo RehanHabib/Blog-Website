@@ -9,7 +9,8 @@ namespace Blog_Website.Controllers
         private readonly UserManager<IdentityUser> userManager;
         private readonly SignInManager<IdentityUser> signInManager;
 
-        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        public AccountController(UserManager<IdentityUser> userManager,
+            SignInManager<IdentityUser> signInManager)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
@@ -22,9 +23,8 @@ namespace Blog_Website.Controllers
             return View();
         }
 
-        
-        [HttpPost]
 
+        [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
         {
             if (ModelState.IsValid)
@@ -54,19 +54,27 @@ namespace Blog_Website.Controllers
             return View();
         }
 
+
         [HttpGet]
-        public IActionResult Login(string ReturnUrl) 
+        public IActionResult Login(string ReturnUrl)
         {
             var model = new LoginViewModel
             {
                 ReturnUrl = ReturnUrl
             };
+
             return View(model);
         }
 
+
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel loginViewModel) 
+        public async Task<IActionResult> Login(LoginViewModel loginViewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
             var signInResult = await signInManager.PasswordSignInAsync(loginViewModel.Username,
                 loginViewModel.Password, false, false);
 
@@ -84,25 +92,18 @@ namespace Blog_Website.Controllers
             return View();
         }
 
-
-
-
-        public async Task<IActionResult> Logout() 
+        [HttpGet]
+        public async Task<IActionResult> Logout()
         {
-        
             await signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
-
         }
+
 
         [HttpGet]
-        public IActionResult AccessDenied() 
+        public IActionResult AccessDenied()
         {
-
             return View();
-
         }
-
-
     }
 }
